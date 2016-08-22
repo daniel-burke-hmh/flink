@@ -40,7 +40,10 @@ public class AWSConfigConstants {
 		PROFILE,
 
 		/** Simply create AWS credentials by supplying the AWS access key ID and AWS secret key in the configuration properties */
-		BASIC
+		BASIC,
+
+		/** Use STSAssumeRoleSessionCredentialsProvider to authenticate */
+		ASSUME_ROLE
 	}
 
 	/** The AWS region of the Kinesis streams to be pulled ("us-east-1" is used if not set) */
@@ -63,5 +66,12 @@ public class AWSConfigConstants {
 
 	/** The AWS endpoint for Kinesis (derived from the AWS region setting if not set) */
 	public static final String AWS_ENDPOINT = "aws.endpoint";
+
+	/** The AWS ARN for the role to assume */
+	public static final String AWS_ASSUME_ROLE_ARN = "aws.role.arn";
+
+	/** The AWS ARN for the role to assume */
+	public static final String AWS_ASSUME_ROLE_SESSION_NAME = "aws.role.session.name";
+
 
 }

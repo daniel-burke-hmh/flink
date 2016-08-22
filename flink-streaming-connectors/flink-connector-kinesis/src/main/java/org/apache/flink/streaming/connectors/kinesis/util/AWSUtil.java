@@ -25,9 +25,11 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
+
 import org.apache.flink.runtime.util.EnvironmentInformation;
 import org.apache.flink.streaming.connectors.kinesis.config.AWSConfigConstants;
 import org.apache.flink.streaming.connectors.kinesis.config.AWSConfigConstants.CredentialProvider;
@@ -86,6 +88,11 @@ public class AWSUtil {
 				credentialsProvider = (profileConfigPath == null)
 					? new ProfileCredentialsProvider(profileName)
 					: new ProfileCredentialsProvider(profileConfigPath, profileName);
+				break;
+			case ASSUME_ROLE:
+				String awsRoleArn = configProps.getProperty(AWSConfigConstants.AWS_ASSUME_ROLE_ARN, null);
+				String awsRoleSessionName = configProps.getProperty(AWSConfigConstants.AWS_ASSUME_ROLE_SESSION_NAME, null);
+				credentialsProvider = new STSAssumeRoleSessionCredentialsProvider(awsRoleArn, awsRoleSessionName);
 				break;
 			default:
 			case BASIC:
